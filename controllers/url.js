@@ -1,5 +1,5 @@
 import { Url } from "../model/Url.js";
-import shortid from 'shortid';
+import shortid from "shortid";
 
 export const shorturl = async (req, res) => {
   const longUrl = req.body.longUrl;
@@ -7,18 +7,18 @@ export const shorturl = async (req, res) => {
   // check if already exists
   let existingUrl = await Url.findOne({ longUrl });
   if (existingUrl) {
-    return res.render("index.ejs", { shortUrl: `http://localhost:3000/${existingUrl.shortCode}` });
+    return res.render("index.ejs", {
+      shortUrl: `${req.headers.host}/${existingUrl.shortCode}`,
+    });
   }
 
   // create new one
   const shortCode = shortid.generate();
-  const shortUrl = `http://localhost:3000/${shortCode}`;
-
   const newUrl = new Url({ longUrl, shortCode });
   await newUrl.save();
 
-  console.log(newUrl);
-  res.render("index.ejs", { shortUrl });
+  console.log("✅ Saved:", newUrl);
+  res.render("index.ejs", { shortUrl: `${req.headers.host}/${shortCode}` });
 };
 
 export const getOriginalUrl = async (req, res) => {

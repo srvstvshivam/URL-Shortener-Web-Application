@@ -1,37 +1,35 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import path from 'path';
-import { shorturl ,getOriginalUrl} from './controllers/url.js'; 
+import express from "express";
+import mongoose from "mongoose";
+import path from "path";
+import dotenv from "dotenv";
+import { shorturl, getOriginalUrl } from "./controllers/url.js";
 
+dotenv.config();
 
 const app = express();
-app.use(express.static(path.join(path.resolve(),'public')));// to set the static file
+app.use(express.static(path.join(path.resolve(), "public")));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.urlencoded({extended:true}));
-
+// MongoDB connection (now from .env)
 mongoose
-  .connect("mongodb+srv://Shivam:shivam12@cluster.fg12tqg.mongodb.net/", {
-    dbname: "NodeJS_Mastery_course",
+  .connect(process.env.MONGO_URI, {
+    dbName: process.env.DB_NAME,
   })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  });
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((err) => console.error("❌ MongoDB Error:", err));
 
-//rendering Ejs file
-app.get("/",(req,res)=>{
-    res.render("index.ejs",{shortUrl: null});
-})
+// Rendering EJS
+app.get("/", (req, res) => {
+  res.render("index.ejs", { shortUrl: null });
+});
 
-//shorting the url logic
-app.post("/shorten",shorturl);
+// Shortening logic
+app.post("/shorten", shorturl);
 
-// redirecting to original url using short code :- dynamic routing
-app.get("/:shortCode",getOriginalUrl);
+// Redirect to original URL
+app.get("/:shortCode", getOriginalUrl);
 
-
-
-
-const Port = 3000;
-app.listen(Port,()=>{
-    console.log(`server is running on http://localhost:${Port}`);
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
