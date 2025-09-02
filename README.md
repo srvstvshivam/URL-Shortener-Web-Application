@@ -7,7 +7,8 @@ This project allows users to shorten long URLs into short, shareable links and r
 ---
 
 ## Live Demo
-🔗 [Click here](https://url-shortener-web-application.onrender.com)
+🔗 [Click here](https://url-shortener-web-application.onrender.com/)
+
 
 ## 🚀 Features
 - Shorten long URLs into unique short codes
