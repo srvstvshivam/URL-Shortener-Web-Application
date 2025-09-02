@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 });
 
 // Shortening logic
-app.post("/shorten", shorturl);
+app.post("/", shorturl);
 
 // Redirect to original URL
 app.get("/:shortCode", getOriginalUrl);
