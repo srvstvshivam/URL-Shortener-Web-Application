@@ -25,6 +25,4 @@ This project allows users to shorten long URLs into short, shareable links and r
 - **View Engine:** EJS (if used)  
 - **Other:** Nanoid for unique short IDs  
 
----
 
-## 📂 Project Structure
